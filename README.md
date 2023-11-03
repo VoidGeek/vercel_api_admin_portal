@@ -1,11 +1,8 @@
-Backend code of the portal
+# node-express-vercel
+Hosting express node project on vercel
 
-## Project setup
-```
-npm install
-```
+### Video
+> https://youtu.be/vCuf62T2snY
 
-### Run
-```
-node server.js
-```
+### Deployed on
+> https://node-express-vercel-rose.vercel.app/home

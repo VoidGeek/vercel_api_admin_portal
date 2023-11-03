@@ -48,30 +48,30 @@ app.get("/", (req, res) => {
 });
 
 // Import the contact and project routers
-// const contactRouter = require("./app/routes/contact.routes");
-// const projectRouter = require("./app/routes/project.routes"); // Import the project router
-// const postRoutes = require("./app/routes/postRoutes");
-// const serviceRouter = require("./app/routes/service.routes")
-// const testimonialRouter = require("./app/routes/testimonial.routes")
-// const imageRoutes = require('./app/routes/imageRoutes')
-// const resetRouter=require('./app/routes/reset.routes')
+const contactRouter = require("./routes/contact.routes");
+const projectRouter = require("./routes/project.routes"); // Import the project router
+const postRoutes = require("./routes/postRoutes");
+const serviceRouter = require("./routes/service.routes")
+const testimonialRouter = require("./routes/testimonial.routes")
+const imageRoutes = require('./routes/imageRoutes')
+const resetRouter=require('./routes/reset.routes')
 
-// app.use("/", contactRouter); // Mount the contact router on the /api/contacts route
-// app.use("/", projectRouter); // Mount the project router on the /api/projects route
+app.use("/", contactRouter); // Mount the contact router on the /api/contacts route
+app.use("/", projectRouter); // Mount the project router on the /api/projects route
 
-// app.use("/", serviceRouter);
-// app.use("/", testimonialRouter);
-// app.use('/', postRoutes);
-// app.use('/api', imageRoutes);
-// app.use('/api',resetRouter);
+app.use("/", serviceRouter);
+app.use("/", testimonialRouter);
+app.use('/', postRoutes);
+app.use('/api', imageRoutes);
+app.use('/api',resetRouter);
 
 // Import the authentication and user routes (replace with actual paths)
-// try {
-//   require("./app/routes/auth.routes")(app);
-//   require("./app/routes/user.routes")(app);
-// } catch (error) {
-//   console.error("Error setting up routes:", error);
-// }
+try {
+  require("./routes/auth.routes")(app);
+  require("./routes/user.routes")(app);
+} catch (error) {
+  console.error("Error setting up routes:", error);
+}
 
 const PORT = 8080;
 try {
@@ -83,43 +83,43 @@ try {
 }
 
 // Set up the initial roles
-// function initial() {
-//   try {
-//     const Role = require("./app/models/role.model");
+function initial() {
+  try {
+    const Role = require("./models/role.model");
 
-//     Role.estimatedDocumentCount((err, count) => {
-//       if (!err && count === 0) {
-//         new Role({
-//           name: "user",
-//         }).save((err) => {
-//           if (err) {
-//             console.log("error", err);
-//           }
+    Role.estimatedDocumentCount((err, count) => {
+      if (!err && count === 0) {
+        new Role({
+          name: "user",
+        }).save((err) => {
+          if (err) {
+            console.log("error", err);
+          }
 
-//           console.log("added 'user' to roles collection");
-//         });
+          console.log("added 'user' to roles collection");
+        });
 
-//         new Role({
-//           name: "admin",
-//         }).save((err) => {
-//           if (err) {
-//             console.log("error", err);
-//           }
+        new Role({
+          name: "admin",
+        }).save((err) => {
+          if (err) {
+            console.log("error", err);
+          }
 
-//           console.log("added 'admin' to roles collection");
-//         });
-//         new Role({
-//           name: "moderator"
-//         }).save(err => {
-//           if (err) {
-//             console.log("error", err);
-//           }
+          console.log("added 'admin' to roles collection");
+        });
+        new Role({
+          name: "moderator"
+        }).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
   
-//           console.log("added 'moderator' to roles collection");
-//         });
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Error in the initial setup:", error);
-//   }
-// }
+          console.log("added 'moderator' to roles collection");
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error in the initial setup:", error);
+  }
+}

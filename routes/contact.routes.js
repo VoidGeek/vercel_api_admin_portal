@@ -7,12 +7,10 @@ const contactController = require("../controllers/contact.controller");
 router.post("/api/contacts", contactController.createContact);
 router.get(
     "/api/contacts",
-    [authJwt.verifyToken],
     contactController.getAllContacts
   );
   router.delete(
     "/api/contacts/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
     contactController.deleteContact
   );
 module.exports = router;

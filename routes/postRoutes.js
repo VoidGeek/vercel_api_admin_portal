@@ -4,7 +4,7 @@ const postPermission = require("../middlewares/postPermission");
 const postController = require('../controllers/postController');
 const { authJwt } = require("../middlewares");
 // Create a new post
-router.post('/api/posts', [authJwt.verifyToken, authJwt.hasAdminOrModeratorRole], postController.createPost);
+router.post('/api/posts', postController.createPost);
 
 // Get all posts
 router.get('/api/posts', postController.getAllPosts);
@@ -13,9 +13,9 @@ router.get('/api/posts', postController.getAllPosts);
 router.get('/api/posts/:id', postController.getPostById);
 
 // Update a post by ID
-router.put('/api/posts/:id', [authJwt.verifyToken, authJwt.hasAdminOrModeratorRole], postController.updatePost);
+router.put('/api/posts/:id', postController.updatePost);
 
 // Delete a post by ID
-router.delete('/api/posts/:id',[authJwt.verifyToken, authJwt.hasAdminOrModeratorRole,postPermission], postController.deletePost);
+router.delete('/api/posts/:id', postController.deletePost);
 
 module.exports = router;

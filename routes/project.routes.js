@@ -9,7 +9,7 @@ const multer = require('multer');
 // Create a new project (POST)
 
 
-router.post("/api/projects",  projectController.createProject,);
+router.post("/api/projects",[authJwt.verifyToken], projectController.createProject,);
 
 // Get all projects (GET)
 router.get("/api/projects", projectController.getAllProjects);

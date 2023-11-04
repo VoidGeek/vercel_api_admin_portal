@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 const corsOptions = {
-  origin: "https://demo-test-peach.vercel.app", // Replace with your Vercel frontend URL
+  origin: "*", // Allow requests from any origin
   credentials: true, // Enable sending cookies with the request
 };
 

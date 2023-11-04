@@ -17,9 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     name: "bezkoder-session",
-    keys: ["your_cookie_secret_key"], // Replace with your actual secret key
-    httpOnly: true,
-    secure: true, // Only send cookies over HTTPS
+    keys: ["your_cookie_secret_key"], // Replace with your actual secret key // Only send cookies over HTTPS
   }));
 
 // Set up the MongoDB connection

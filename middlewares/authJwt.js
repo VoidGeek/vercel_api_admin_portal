@@ -25,7 +25,7 @@ const verifyToken = (req, res, next) => {
     });
   } catch (error) {
     console.error("Error in verifyToken middleware:", error);
-    return rjwt.es.status(500).send({ message: "Internal Server Error" });
+    return res.status(500).send({ message: "Internal Server Error" });
   }
 };
 

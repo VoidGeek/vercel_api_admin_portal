@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authJwt } = require("../middlewares");
+const { authJwt } = require("../middlewares/demo");
 const projectController = require("../controllers/project.controller");
 const checkAdminPermission = require("../middlewares/projectPermission");
 const multer = require('multer');

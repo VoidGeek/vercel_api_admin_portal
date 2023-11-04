@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const postPermission = require("../middlewares/postPermission");
 const postController = require('../controllers/postController');
-const { authJwt } = require("../middlewares");
+const { authJwt } = require("../middlewares/demo");
 // Create a new post
 router.post('/api/posts', postController.createPost);
 

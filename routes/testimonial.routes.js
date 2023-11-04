@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authJwt } = require("../middlewares");
+const { authJwt } = require("../middlewares/demo");
 const testimonialController = require("../controllers/testimonial.controller");
 const testimonialPermission = require("../middlewares/testimonialPermission");
 const multer = require('multer');
@@ -8,7 +8,7 @@ const imageController = require('../controllers/imageController');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 // Create a new testimonial (POST)
-router.post("/api/testimonials", testimonialController.createTestimonial);
+router.post("/api/testimonials", [authJwt.verifyToken], testimonialController.createTestimonial);
 
 // Get all testimonials (GET)
 router.get("/api/testimonials", testimonialController.getAllTestimonials);

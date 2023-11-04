@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authJwt } = require("../middlewares");
+const { authJwt } = require("../middlewares/demo");
 const multer = require('multer');
 const imageController = require('../controllers/imageController');
 const storage = multer.memoryStorage();

@@ -5,7 +5,7 @@ const serviceController = require("../controllers/service.controller");
 const servicePermission = require("../middlewares/servicePermission");
 
 // Create a new service (POST)
-router.post("/api/services", serviceController.createService);
+router.post("/api/services",  [authJwt.verifyToken, authJwt.isAdmin], serviceController.createService);
 
 // Get all services (GET)
 router.get("/api/services", serviceController.getAllServices);

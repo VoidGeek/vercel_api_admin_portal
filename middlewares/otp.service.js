@@ -1,13 +1,7 @@
-const nodemailer = require('nodemailer');
-const sgTransport = require('nodemailer-sendgrid-transport');
+const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 
-// Configuration for nodemailer using SendGrid
-const transporter = nodemailer.createTransport(sgTransport({
-  auth: {
-    api_key: process.env.SENDGRID_API_KEY, // Your SendGrid API key
-  },
-}));
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const otpExpiration = 10 * 60 * 1000; // OTP expiration time (in milliseconds), e.g., 10 minutes
 
@@ -20,22 +14,20 @@ function generateOTP() {
 
 // Function to send an OTP to the user's email
 async function sendOTPByEmail(email, otp) {
-  const mailOptions = {
-    from: 'ravenfritter@gmail.com', // Your "no-reply" email address
+  const msg = {
     to: email,
+    from: 'ravenfritter@gmail.com', // Your "no-reply" email address
     subject: 'OTP for Password Reset',
     text: `Your OTP is: ${otp}`,
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('OTP sent:', info.response);
+    await sgMail.send(msg);
 
     // Store the OTP and its expiration time
-    otps.set(email, {
-      otp,
-      expiration: Date.now() + otpExpiration,
-    });
+    const expirationTime = Date.now() + otpExpiration;
+    otps.set(email, { otp, expiration: expirationTime });
+    console.log('OTP sent to:', email);
   } catch (error) {
     console.error('Error sending OTP:', error);
   }

@@ -1,14 +1,13 @@
 const nodemailer = require('nodemailer');
-require('dotenv').config(); // Load environment variables from a .env file or your hosting platform
+const sgTransport = require('nodemailer-sendgrid-transport');
+require('dotenv').config();
 
-// Configuration for nodemailer using Gmail
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+// Configuration for nodemailer using SendGrid
+const transporter = nodemailer.createTransport(sgTransport({
   auth: {
-    user: process.env.GMAIL_USER, // Your Gmail email address
-    pass: process.env.GMAIL_APP_PASSWORD, // Your Gmail app password
+    api_key: process.env.SENDGRID_API_KEY, // Your SendGrid API key
   },
-});
+}));
 
 const otpExpiration = 10 * 60 * 1000; // OTP expiration time (in milliseconds), e.g., 10 minutes
 
@@ -22,7 +21,7 @@ function generateOTP() {
 // Function to send an OTP to the user's email
 async function sendOTPByEmail(email, otp) {
   const mailOptions = {
-    from: process.env.GMAIL_USER,  // Your "no-reply" email address
+    from: 'ravenfritter@gmail.com', // Your "no-reply" email address
     to: email,
     subject: 'OTP for Password Reset',
     text: `Your OTP is: ${otp}`,

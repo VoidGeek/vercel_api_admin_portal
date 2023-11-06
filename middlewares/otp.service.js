@@ -1,11 +1,12 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config(); // Load environment variables from a .env file or your hosting platform
 
 // Configuration for nodemailer using Gmail
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'shionsan845@gmail.com', // Your Gmail email address
-    pass: 'dkcmabaxzaueaaer', // Your Gmail app password
+    user: process.env.GMAIL_USER, // Your Gmail email address
+    pass: process.env.GMAIL_APP_PASSWORD, // Your Gmail app password
   },
 });
 
@@ -19,27 +20,26 @@ function generateOTP() {
 }
 
 // Function to send an OTP to the user's email
-function sendOTPByEmail(email, otp) {
+async function sendOTPByEmail(email, otp) {
   const mailOptions = {
-    from: 'shionsan845@gmail.com',  // Your "no-reply" email address
+    from: process.env.GMAIL_USER,  // Your "no-reply" email address
     to: email,
     subject: 'OTP for Password Reset',
     text: `Your OTP is: ${otp}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending OTP:', error);
-    } else {
-      console.log('OTP sent:', info.response);
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('OTP sent:', info.response);
 
-      // Store the OTP and its expiration time
-      otps.set(email, {
-        otp,
-        expiration: Date.now() + otpExpiration,
-      });
-    }
-  });
+    // Store the OTP and its expiration time
+    otps.set(email, {
+      otp,
+      expiration: Date.now() + otpExpiration,
+    });
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+  }
 }
 
 // Function to verify an OTP

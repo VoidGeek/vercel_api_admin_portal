@@ -67,7 +67,7 @@ app.use("/", serviceRouter);
 app.use("/", testimonialRouter);
 app.use('/', postRoutes);
 app.use('/api', imageRoutes);
-app.use('/api',resetRouter);
+app.use('/',resetRouter);
 
 // Import the authentication and user routes (replace with actual paths)
 try {

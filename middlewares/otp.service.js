@@ -1,19 +1,16 @@
 const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 
-// Set the SendGrid API key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Create a SendGrid transport with the desired settings
-const sendGridTransport = sgMail.setClient({
-  host: 'smtp.sendgrid.net', // SendGrid SMTP server
-  port: 587, // Port for TLS connection
-  secure: true, // Use a secure (TLS) connection
-  auth: {
-    user: 'process.env.SENDGRID_API_KEY', // Your SendGrid username
-    pass: 'process.env.SENDGRID_API_KEY', // Your SendGrid password
-  },
-});
+const otpExpiration = 10 * 60 * 1000; // OTP expiration time (in milliseconds), e.g., 10 minutes
+
+const otps = new Map(); // Store OTPs and their expiration times
+
+// Function to generate a random OTP
+function generateOTP() {
+  return Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit OTP
+}
 
 // Function to send an OTP to the user's email
 async function sendOTPByEmail(email, otp) {
@@ -25,9 +22,9 @@ async function sendOTPByEmail(email, otp) {
   };
 
   try {
-    await sendGridTransport.sendMail(msg);
+    await sgMail.send(msg);
 
-    // Rest of your code remains the same
+    // Store the OTP and its expiration time
     const expirationTime = Date.now() + otpExpiration;
     otps.set(email, { otp, expiration: expirationTime });
     console.log('OTP sent to:', email);
@@ -36,7 +33,23 @@ async function sendOTPByEmail(email, otp) {
   }
 }
 
-// Rest of your code
+// Function to verify an OTP
+function verifyOTP(email, userOTP) {
+  const storedOTP = otps.get(email);
+
+  if (!storedOTP || Date.now() > storedOTP.expiration) {
+    // OTP has expired or doesn't exist
+    return false;
+  }
+
+  if (userOTP === storedOTP.otp) {
+    // OTP matches
+    otps.delete(email); // Remove the OTP from the storage
+    return true;
+  }
+
+  return false;
+}
 
 module.exports = {
   generateOTP,

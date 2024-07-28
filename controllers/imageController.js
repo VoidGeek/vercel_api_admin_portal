@@ -1,13 +1,16 @@
+require('dotenv').config(); // Load environment variables from a .env file
+
 const ImageModel = require('../models/image.model');
 const multer = require('multer');
 const aws = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
 const s3 = new aws.S3({
-  accessKeyId: 'AKIAVJB7J3ESEYWCVB56',
-  secretAccessKey: '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',
-  region: 'ap-south-1',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 });
+
 
 exports.createImage = async (req, res) => {
   const { buffer } = req.file;
@@ -15,7 +18,7 @@ exports.createImage = async (req, res) => {
   const key = `${submissionTime}-${uuidv4()}`; // Generate a unique key using timestamp and uuid
 
   const params = {
-    Bucket: 'bucketrial',
+    Bucket: 'deng39',
     Key: key,
     Body: buffer,
   };
@@ -86,7 +89,7 @@ exports.createImage = async (req, res) => {
   
       // Upload the new object to S3
       const newParams = {
-        Bucket: 'bucketrial',
+        Bucket: 'deng39',
         Key: newKey,
         Body: req.file.buffer, // Use req.file.buffer directly
       };
@@ -99,7 +102,7 @@ exports.createImage = async (req, res) => {
           $set: {
             s3Key: newKey,
             imageUrl: s3.getSignedUrl('getObject', {
-              Bucket: 'bucketrial',
+              Bucket: 'deng39',
               Key: newParams.Key,
               Expires: 604800,
             }),

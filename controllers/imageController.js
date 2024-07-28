@@ -1,16 +1,13 @@
-require('dotenv').config(); // Load environment variables from a .env file
-
 const ImageModel = require('../models/image.model');
 const multer = require('multer');
 const aws = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
 const s3 = new aws.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+  accessKeyId: 'AKIAU6GD2OTDHRLCH2NZ',
+  secretAccessKey: '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',
+  region: 'ap-south-1',
 });
-
 
 exports.createImage = async (req, res) => {
   const { buffer } = req.file;

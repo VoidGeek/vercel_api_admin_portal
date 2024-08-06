@@ -1,8 +1,8 @@
 # node-express-vercel
-Hosting express node project on vercel
+Hosting express node project on vercel for admin portal management in serverless mode
 
 ### Video
 > https://youtu.be/vCuf62T2snY
 
 ### Deployed on
-> https://node-express-vercel-rose.vercel.app/home
+> https://vercel-api-ashen-iota.vercel.app
